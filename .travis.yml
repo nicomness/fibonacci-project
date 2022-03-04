@@ -16,4 +16,7 @@ after_success:
   # Log in to the docker CLI
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin
   # Take those images and push them to our docker hub
-  - docker push -a
+  - docker push nmokhrin/multi-client
+  - docker push nmokhrin/multi-nginx
+  - docker push nmokhrin/multi-server
+  - docker push nmokhrin/multi-worker
