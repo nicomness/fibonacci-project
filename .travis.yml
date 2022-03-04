@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t nicomness/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true -t nicomness/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t nicomness/multi-client ./client
+  - docker build -t nicomness/multi-nginx ./nginx
+  - docker build -t nicomness/multi-server ./server
+  - docker build -t nicomness/multi-worker ./worker
+  # Log in to the docker CLI
+  - docker login -u $DOCKER_ID -p $DOCKER_PASSWORD
+  # Take those images and push them to our docker hub
+  - docker push nicomness/multi-client
+  - docker push nicomness/multi-nginx
+  - docker push nicomness/multi-server
+  - docker push nicomness/multi-worker
