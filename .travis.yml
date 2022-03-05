@@ -20,3 +20,15 @@ after_success:
   - docker push nmokhrin/multi-nginx
   - docker push nmokhrin/multi-server
   - docker push nmokhrin/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-1"
+  app: "multi-docker"
+  env: "Multidocker-env"
+  bucket_name: "elasticbeanstalk-eu-west-1-591464159353"
+  bucket_path: "multi-docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
